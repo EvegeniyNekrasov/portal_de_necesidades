@@ -1,2 +1,2 @@
 # portal_de_necesidades
-Second HACKABOSS BOOTCAMP proyect
+Second HACKABOSS BOOTCAMP project
