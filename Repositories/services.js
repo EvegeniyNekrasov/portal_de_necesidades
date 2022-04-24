@@ -12,11 +12,11 @@ const getServices = async (id, connection) => {
 
 }
 
-const createService = async (title, explain, file, comments, userId, connection) => {
+const createService = async (title, describe, file, comments, userId, connection) => {
     try {
         await connection.query(`
-    insert into services (title, explain, file, comments, userId) 
-    values ("${title}","${explain}", ${file}, "${comments}", ${userId})
+    insert into services (title, describe, file, comments, userId) 
+    values ("${title}","${describe}", ${file}, "${comments}", ${userId})
 `)
     } catch (e) {
         console.log('[createService] ', e)

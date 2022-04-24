@@ -33,6 +33,9 @@ const {
     register
 } = require('./controllers/register')
 
+const {
+    addComment,
+} = require('./controllers/controladores')
 /*
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -56,7 +59,7 @@ app.use((req, res, next) => {
 
 //USUARIO ANONIMO
 // Solicitamos la lista de servicios disponibles
-app.get('/service', listService)
+app.get('/service', getServices)
 
 // Hacemos login
 app.post('/login', login)
@@ -66,7 +69,7 @@ app.post('/register', userExists, register)
 
 // USUARIOS REGISTRADOS
 // Añado servicios a la base de datos, comprobando si el usuario esta autenticado.
-app.post('/service', isAuthenticated, addService)
+app.post('/service', isAuthenticated, createService)
 
 // Añado comentarios y subo archivo con trabajo requerido.
 app.patch('/service/:id', isAuthenticated, serviceExists, addComment)
@@ -76,12 +79,7 @@ app.put('/service/:id/files', isAuthenticated, serviceExists, uploadFile)
 // Marcar servicio como resuelto
 app.post('/services/:id', isAuthenticated, serviceExists, markAsComplete)
 
-
-// devuelvo una lista con información resumida de cada producto
-app.get('/service', listProducts)
-
-
- // endpoint de ejemplo para subir ficheros
+// endpoint de ejemplo para subir ficheros
  const processFileUpload = async (req, res) => {
 
     console.log(req.files.sampleFile.size)
