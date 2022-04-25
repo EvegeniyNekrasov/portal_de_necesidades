@@ -1,6 +1,6 @@
-const getServices = async (id, connection) => {
+const getServices = async (connection) => {
 
-    const sqlGetServices = `select * from services where id=${id}`
+    const sqlGetServices = `select * from services`
 
     const services = await connection.query(sqlGetServices)
 
