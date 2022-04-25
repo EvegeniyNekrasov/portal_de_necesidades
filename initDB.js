@@ -11,9 +11,11 @@ async function main() {
 
     // Borrar las tablas si existen (diary, diary_votes)
     console.log("Borrando tablas");
-    await connection.query("DROP TABLE IF EXISTS users")
-    await connection.query("DROP TABLE IF EXISTS services");
     await connection.query("DROP TABLE IF EXISTS completework");
+    await connection.query("DROP TABLE IF EXISTS services");
+    await connection.query("DROP TABLE IF EXISTS users")
+    
+    
 
     // Crear las tablas de nuevo
     console.log("Creando tablas");

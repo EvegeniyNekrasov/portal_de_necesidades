@@ -1,13 +1,13 @@
 require("dotenv").config();
 
 const bodyParser = require('body-parser')
-const fileUpload = require('express-fileupload');
+//const fileUpload = require('express-fileupload');
 const express = require('express')
 const cors = require('cors')
 
 const fs = require('fs').promises
 
-const db = require('./DB/db')
+const db = require('./db')
 const app = express()
 
 const {
@@ -36,15 +36,15 @@ const {
 const {
     addComment,
 } = require('./controllers/controladores')
-/*
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-*/
-/* middleware para recibir ficheros subidos desde un formulario
-app.use(fileUpload())
+
+//middleware para recibir ficheros subidos desde un formulario
+//app.use(fileUpload())
 
 app.use(express.static('public'));
-*/
+
 
 const corsOptions = {
     origin: '',
@@ -65,21 +65,21 @@ app.get('/service', getServices)
 app.post('/login', login)
 
 // Registramos en la aplicacion
-app.post('/register', userExists, register)
+app.post('/register', register)
 
 // USUARIOS REGISTRADOS
 // Añado servicios a la base de datos, comprobando si el usuario esta autenticado.
-app.post('/service', isAuthenticated, createService)
+//app.post('/service', isAuthenticated, createService)
 
 // Añado comentarios y subo archivo con trabajo requerido.
 app.patch('/service/:id', isAuthenticated, serviceExists, addComment)
 
-app.put('/service/:id/files', isAuthenticated, serviceExists, uploadFile)
+//app.put('/service/:id/files', isAuthenticated, serviceExists, uploadFile)
 
 // Marcar servicio como resuelto
 app.post('/services/:id', isAuthenticated, serviceExists, markAsComplete)
 
-// endpoint de ejemplo para subir ficheros
+/*// endpoint de ejemplo para subir ficheros
  const processFileUpload = async (req, res) => {
 
     console.log(req.files.sampleFile.size)
@@ -90,6 +90,13 @@ app.post('/services/:id', isAuthenticated, serviceExists, markAsComplete)
  }
 
  app.post('/fileUpload', processFileUpload)
+*/
 
 
-app.listen(process.env.SERVER_PORT)
+ app.get('/', (req, res) => {
+    res.send("<h1>Hola</h1>")
+});
+
+app.listen(process.env.SERVER_PORT, () => {
+    console.log(`Listening on port ${process.env.SERVER_PORT}`)
+});
