@@ -39,6 +39,8 @@ const register = async (req, res) => {
                     insert into users (username, password, mail, biography, insession) 
                     values ("${username}", "${hiddenPassword}", "${mail}", "${biography}", false)`
        await connection.query(sqlInsertUser)
+       connection.release()
+       res.send('ok')
 }
 
 module.exports = {
