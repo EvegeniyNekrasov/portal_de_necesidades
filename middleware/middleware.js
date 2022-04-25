@@ -6,7 +6,7 @@ const {
     getServices
 } = require('../Repositories/services')
 
-const db = require('../DB/db')
+const db = require('../db')
 
 const isAuthenticated = async (req, res, next) => {
     const token = req.headers.authorization

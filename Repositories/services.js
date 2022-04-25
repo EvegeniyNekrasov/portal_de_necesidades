@@ -1,8 +1,9 @@
-const getServices = async (connection) => {
+const getServices = async (req, res) => {
 
+    const connection = await connection.query();
     const sqlGetServices = `select * from services`
-
-    const services = await connection.query(sqlGetServices)
+    let services = await connection.query(sqlGetServices)
+    
 
     if (services[0].length === 0) {
         return undefined

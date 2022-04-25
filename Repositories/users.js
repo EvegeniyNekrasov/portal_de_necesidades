@@ -1,6 +1,6 @@
-const userExists = async (id, connection) => {
+const userExists = async (username, connection) => {
 
-    const sql = `select * from users where id=${id}`
+    const sql = `select * from users where username=${username}`
 
     const users = await connection.query(sql)
 
