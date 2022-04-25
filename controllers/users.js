@@ -38,10 +38,11 @@ const login = async (req, res) => {
     } else {
         const sqlChange = `update users set insession=true where username = "${username}"`
         await connection.query(sqlChange)
-    res.sendStatus(200)
-    connection.release()}
+        connection.release()
+        res.sendStatus(200)
+        res.send('ok')
+    }
 }
-
 
     module.exports = {
         login
