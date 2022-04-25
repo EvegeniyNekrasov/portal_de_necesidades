@@ -19,32 +19,29 @@ const login = async (req, res) => {
 
 // 2) obtenemos el usuario de la bbdd
     const sqlGetUser = `select * from users where username="${username}"`
-
+    
     const users = await connection.query(sqlGetUser)
-
+    
 // compruebo si está en la bbdd ese usuario
     if (users[0].length === 0) {
         res.sendStatus(403)
         connection.release()
         return
     }
-
-// 3) comprobar si el usuario está activo
-    if (users[0][0].active === 0) {
-        res.sendStatus(403)
-        connection.release()
-        return
-    }
-
-// 4) comprobar que la password es correcta
+// 3) comprobar que la password es correcta
     const passwordsAreEqual = await bcrypt.compare(password, users[0][0].password)
-
+    
     if (!passwordsAreEqual) {
         res.sendStatus(403)
         connection.release()
         return
-    }
+    } else {
+        const sqlChange = `update users set insession=true where username = "${username}"`
+        await connection.query(sqlChange)
+    res.sendStatus(200)
+    connection.release()}
 }
+
 
     module.exports = {
         login
