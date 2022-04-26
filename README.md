@@ -27,7 +27,7 @@ mediante  un fichero  digital.
 
    - Fichero
 
-- Es coger un s ervicio requerido  por  otro  us uario y poder:  
+- Es coger un servicio requerido  por  otro  usuario y poder:  
     - Hacer comentarios  
     - Subir  un fichero  con el trabajo  requerido  realizado
   
