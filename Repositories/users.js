@@ -9,6 +9,7 @@ const userExists = async (username, connection) => {
     } else {
         return true
     }
+    
 }
 
 

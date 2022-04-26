@@ -59,7 +59,7 @@ app.use((req, res, next) => {
 
 //USUARIO ANONIMO
 // Solicitamos la lista de servicios disponibles
-app.get('/service', getServices)
+app.get('/service/list', getServices)
 
 // Hacemos login
 app.post('/login', login)
@@ -69,10 +69,10 @@ app.post('/register', register)
 
 // USUARIOS REGISTRADOS
 // Añado servicios a la base de datos, comprobando si el usuario esta autenticado.
-//app.post('/service', isAuthenticated, createService)
+app.post('/service/add', createService)
 
 // Añado comentarios y subo archivo con trabajo requerido.
-app.patch('/service/:id', isAuthenticated, serviceExists, addComment)
+app.patch('/service/:id', addComment)
 
 //app.put('/service/:id/files', isAuthenticated, serviceExists, uploadFile)
 
