@@ -10,7 +10,7 @@ const register = async (req, res) => {
 
 // 1) Comprobamos que nos pasan usuario y contraseña.
     const { username, password, mail, biography } = req.body
-    console.log(req.body)
+
     if (!username || !password) {
         res.sendStatus(400)
         return
@@ -35,10 +35,11 @@ const register = async (req, res) => {
 // 4) Registramos en DB
     
     const sqlInsertUser = `
-                    insert into users (username, password, mail, biography, insession) 
-                    values ("${username}", "${hiddenPassword}", "${mail}", "${biography}", false)`
+                    insert into users (username, password, mail, biography) 
+                    values ("${username}", "${hiddenPassword}", "${mail}", "${biography}")`
        await connection.query(sqlInsertUser)
        connection.release()
+       res.sendStatus(200)
 }
 
 module.exports = {

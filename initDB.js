@@ -27,7 +27,7 @@ async function main() {
           password VARCHAR(300) NOT NULL,
           mail VARCHAR(50) NOT NULL,
           biography VARCHAR(300) NOT NULL,
-          insession BOOLEAN NOT NULL
+          insession BOOLEAN DEFAULT false
       );
     `);
 

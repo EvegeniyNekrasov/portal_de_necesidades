@@ -1,16 +1,13 @@
-require("dotenv").config();
-
-const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken");
-const fs = require('fs').promises
-
+require("dotenv").config()
 const db = require('../db')
 
-
-
+// Listamos todos los servicios disponibles.
 const getServices = async (req, res) => {
     
     const connection = await db.getConnection()
+    const sqlGetServices = `select * from services`
+    const respuesta = await connection.query(sqlGetServices)
+    res.status(200).send(respuesta[0])
 }
 
 // Creamos el nuevo servicio, pero antes de poder crearlo, el usuario tiene que estar creado. Por el uso del foreign key userID = id de tabla users
@@ -21,10 +18,9 @@ const createService = async (req, res) => {
         const sqlCreateService = `insert into services (title, description, file, comments, userId) 
         values ("${title}","${description}", "${file}", "${comments}", ${userId})`
         await connection.query(sqlCreateService)
-        res.sendStatus(200)
+        res.status(200).send("Servicio creado correctamente !!")
     } catch (e) {
-        console.log('[createService] ', e)
-        res.sendStatus(403)
+        res.status(403).send("[ERROR] el servicio no esta creado, rellene los campos necesarios e intentelo de nuevo")
     }
 
 }
