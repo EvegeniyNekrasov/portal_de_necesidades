@@ -40,7 +40,6 @@ const login = async (req, res) => {
         await connection.query(sqlChange)
         connection.release()
         res.sendStatus(200)
-        res.send('ok')
     }
 }
 

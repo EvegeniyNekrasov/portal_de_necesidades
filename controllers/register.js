@@ -24,7 +24,6 @@ const register = async (req, res) => {
     const users = await connection.query(sqlGetUser)
 
     if (users[0].length !== 0) {
-        res.send("El usuario ya esta registardo")
         res.sendStatus(409)
         connection.release()
         return
@@ -40,7 +39,6 @@ const register = async (req, res) => {
                     values ("${username}", "${hiddenPassword}", "${mail}", "${biography}", false)`
        await connection.query(sqlInsertUser)
        connection.release()
-       res.send('ok')
 }
 
 module.exports = {
