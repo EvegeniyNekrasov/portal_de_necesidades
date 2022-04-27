@@ -10,6 +10,7 @@ let updateComment;
 
 const addComment = async (req, res) => {
     const {username, comments} = req.body
+    try{
     if (!username || !comments) {
         res.status(403).send("[ERROR] Faltan datos para añadir un comentario")
         return
@@ -26,7 +27,9 @@ const addComment = async (req, res) => {
     await connection.query(updateComment)
 
     res.status(200).send("[EXITO] Comentario añadido correctamente")
-    
+} catch {
+    res.status(403).send("[ERROR] Hemos encontrado un problema con la DB")
+}
     
 }
 

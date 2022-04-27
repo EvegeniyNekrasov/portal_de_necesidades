@@ -18,7 +18,9 @@ const createService = async (req, res) => {
         const sqlCreateService = `insert into services (title, description, file, comments, userId) 
         values ("${title}","${description}", "${file}", "${comments}", ${userId})`
         await connection.query(sqlCreateService)
-        res.status(200).send("Servicio creado correctamente !!")
+
+        const markAsComplete = `insert into completeworks (id_user, id_service) values (${userId}, ${serviceId})`
+        res.status(200).send("[EXITO] Servicio creado correctamente")
     } catch (e) {
         res.status(403).send("[ERROR] el servicio no esta creado, rellene los campos necesarios e intentelo de nuevo")
     }
@@ -28,7 +30,7 @@ const createService = async (req, res) => {
 const markAsComplete = async (req, res) => {
     const {userId, serviceId} = req.body
     const connection = await db.getConnection()
-    let sql = `insert into completeworks (id_user, id_service) values (${userId}, ${serviceId})`
+    let sql = ``
 
     await connection.query(sql)
 }

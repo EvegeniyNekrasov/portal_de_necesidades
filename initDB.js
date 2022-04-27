@@ -48,6 +48,7 @@ async function main() {
         id INTEGER unsigned PRIMARY KEY AUTO_INCREMENT NOT NULL,
         id_user INTEGER NOT NULL,
         id_service INTEGER NOT NULL,
+        complete BOOLEAN default false,
         foreign key (id_user) references users(id),
         foreign key (id_service) references services(id)
     );

@@ -69,10 +69,10 @@ app.post('/register', register)
 
 // USUARIOS REGISTRADOS
 // Añado servicios a la base de datos, comprobando si el usuario esta autenticado.
-app.post('/service/add', isAuthenticated)
+app.post('/service/add', isAuthenticated, createService)
 
 // Añado comentarios y subo archivo con trabajo requerido.
-app.patch('/service/:id', serviceExists, addComment)
+app.patch('/service/:id', serviceExists, isAuthenticated, addComment)
 
 //app.put('/service/:id/files', isAuthenticated, serviceExists, uploadFile)
 

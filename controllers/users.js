@@ -36,13 +36,22 @@ const login = async (req, res) => {
         res.sendStatus(403)
         connection.release()
         return
-    } else {
-        const sqlChange = `update users set insession=true where username = "${username}"`
-        await connection.query(sqlChange)
-        connection.release()
-        res.sendStatus(200)
-    }
+    } 
+// generar el token
+const userInfo = {
+    id: users[0][0].id
 }
+
+const token = jwt.sign(userInfo, process.env.SECRET, {
+    expiresIn: "30d",
+})
+connection.release()
+
+res.send({
+    data: token
+})
+}
+
 
     module.exports = {
         login

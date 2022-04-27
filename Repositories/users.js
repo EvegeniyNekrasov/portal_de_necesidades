@@ -1,4 +1,4 @@
-const userExists = async (username, connection) => {
+const isOwner = async (username, connection) => {
 
     const sql = `select * from users where username=${username}`
 
@@ -9,10 +9,10 @@ const userExists = async (username, connection) => {
     } else {
         return true
     }
-    
+
 }
 
 
 module.exports = {
-    userExists
+    isOwner
 }
