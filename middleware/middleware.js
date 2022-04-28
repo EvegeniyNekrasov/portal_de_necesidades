@@ -13,7 +13,7 @@ const isAuthenticated = async (req, res, next) => {
         req.appInfo = {
             id: userInfo.id
         }
-    
+        
         // Comprobar que el usuario está en una sessión activa
         const sqlGetUser = `select * from users where id="${userInfo.id}" and insession=true`
 
@@ -25,6 +25,7 @@ const isAuthenticated = async (req, res, next) => {
             connection.release()
             return
         }
+        
 
         next()
     } catch {
