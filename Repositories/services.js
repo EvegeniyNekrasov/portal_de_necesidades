@@ -30,20 +30,8 @@ const createService = async (req, res) => {
         const sqlCreateService = `insert into services (title, description, file, comments, userId) 
         values ("${title}","${description}", "${file}", "${comments}", ${userId})`
         await connection.query(sqlCreateService)
-
-    // Insertamos en tabla aux, completework, los datos de este nuevo servicio creado.
-        const sqlServicesId = `select id from services where userId=${userId}`
-        
-        const getServiceId = await connection.query(sqlServicesId)
-        
-        
-        console.log(getServiceId[0][2])
-        
-//        const markAsComplete = `insert into completeworks (id_user, id_service) values (${userId}, ${serviceId})`
         res.status(200).send("[EXITO] Servicio creado correctamente")
         connection.release()
- 
-
 }
 
 const markAsComplete = async (req, res) => {
@@ -54,8 +42,37 @@ const markAsComplete = async (req, res) => {
     await connection.query(sql)
 }
 
+const newTask = async (req, res) => {
+ //   try{
+    const connection = await db.getConnection()
+    const userId = req.appInfo.id
+    const sqlGetServiceId = `select id from services where userId=${userId}`
+    const idService = await connection.query(sqlGetServiceId)
+    const prueba = await connection.query(`select id_service from completework where id_user=${userId}`)
+    let i = prueba[0].length;
+    for(i ; i < idService[0].length ; i++){
+         //prueba[0])
+        if(idService[0].length !== prueba[0][i].id_service){
+        //const newTaskIn = `insert into completework (id_user, id_service) values (${userId}, ${idService[0][i].id})`
+        //await connection.query(newTaskIn)
+        
+      
+        }
+        console.log("dentro del if", idService[0][i].id)
+        console.log(prueba[0][i])
+    }
+    const username = `select username from users where id=${userId}`
+    const username2 = await connection.query(username)
+    //console.log(idService[0][1])
+    //res.status(200).send(`[EXITO] Nueva tarea añadida al usuario: ${username2[0][0].username}`)
+
+/*} catch (e) {
+   console.log(e)
+}*/
+}
 module.exports = {
     createService,
     getServices,
-    markAsComplete
+    markAsComplete,
+    newTask
 } 
