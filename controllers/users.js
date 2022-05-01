@@ -8,7 +8,7 @@ const db = require('../db')
 
 const login = async (req, res) => {
 
-// 1) comprobamos que nos pasan login y password
+// comprobamos que nos pasan login y password
     const { username, password } = req.body
 
     if (!username || !password) {
@@ -18,7 +18,7 @@ const login = async (req, res) => {
     }
     const connection = await db.getConnection()
 
-// 2) obtenemos el usuario de la bbdd
+// obtenemos el usuario de la bbdd
     const sqlGetUser = `select * from users where username="${username}"`
     
     const users = await connection.query(sqlGetUser)
@@ -29,21 +29,35 @@ const login = async (req, res) => {
         connection.release()
         return
     }
-// 3) comprobar que la password es correcta
+// comprobar que la password es correcta
     const passwordsAreEqual = await bcrypt.compare(password, users[0][0].password)
     
     if (!passwordsAreEqual) {
         res.sendStatus(403)
         connection.release()
         return
-    } else {
-        const sqlChange = `update users set insession=true where username = "${username}"`
-        await connection.query(sqlChange)
-        connection.release()
-        res.sendStatus(200)
+    } 
+    
+// generar el token
+    const userInfo = {
+    id: users[0][0].id
     }
-}
 
-    module.exports = {
+    const token = jwt.sign(userInfo, process.env.SECRET, {
+    expiresIn: "30d",
+    })
+    connection.release()
+
+    res.send({
+        data: token
+    })  
+// Cambiamos el estatus del usuario a insession True, ya que esta loggeado.
+    const sqlChange = `update users set insession=true where username = "${username}"`
+        await connection.query(sqlChange)
+        
+    connection.release()
+        
+}
+module.exports = {
         login
     }

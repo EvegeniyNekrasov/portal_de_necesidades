@@ -6,53 +6,38 @@ const jwt = require("jsonwebtoken");
 const db = require('../db')
 
 const isAuthenticated = async (req, res, next) => {
-try{
-const { username, password } = req.body
-// Comprobamos que introducen los datos solicitados.
-if (!username || !password) {
-    res.status(400).send("[ERROR] Faltan el usuario o la centraseña")
-    return
-}
-// Comprobamos si el usuario existe en la DB.
-const connection = await db.getConnection()
+    const token = req.headers.authorization
+    const connection = await db.getConnection()
+    try {
+        const userInfo = jwt.verify(token, process.env.SECRET)
+        req.appInfo = {
+            id: userInfo.id
+        }
+        
+        // Comprobar que el usuario está en una sessión activa
+        const sqlGetUser = `select * from users where id="${userInfo.id}" and insession=true`
 
-const sqlGetUser = `select * from users where username="${username}"`
+        const users = await connection.query(sqlGetUser)
+        
+        // compruebo si está en la bbdd ese usuario
+        if (users[0][0].length === 0) {
+            res.sendStatus(403)
+            connection.release()
+            return
+        }
+        
 
-const users = await connection.query(sqlGetUser)
-
-if (users[0].length === 0) {
-    res.status(403).send("[ERROR] Usuario no encontrado")
-    connection.release()
-    return
-}
-// comprobar que la password es correcta
-const passwordsAreEqual = await bcrypt.compare(password, users[0][0].password)
-
-if (!passwordsAreEqual) {
-    res.status(403).send("[ERROR] Credenciales incorrectas")
-    connection.release()
-    return
-} 
-
-// Comprobar que el apartado insession es true
-const insessionTrue = `select insession from users where username='${username}' and insession= true`
-const user = await connection.query(insessionTrue)
-const isTrue = user[0][0].insession
-
-    res.sendStatus(200)
-    next()
-    
-} catch(e){
-    res.status(403).send("[ERROR] No esta autenticado. Por favor inicie sesion")
-    
-}
-
+        next()
+    } catch {
+        console.log('[ERROR] verificando token')
+        res.sendStatus(401)
+    }
 }
 
 const serviceExists = async (req, res, next) => {
     const connection = await db.getConnection()
-
-    const sqlGetService = `select * from services`
+    const idService = req.params.id
+    const sqlGetService = `select * from services where id=${idService}`
     const service = await connection.query(sqlGetService)
     
     if (service[0][0] === undefined) {

@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const bodyParser = require('body-parser')
-//const fileUpload = require('express-fileupload');
 const express = require('express')
 const cors = require('cors')
 
@@ -18,12 +17,9 @@ serviceExists
 const {
     createService,
     markAsComplete,
-    getServices
+    getServices,
+    newTask
 } = require('./Repositories/services')
-
-const {
-    userExists
-} = require('./Repositories/users')
 
 const {
     login
@@ -43,10 +39,10 @@ app.use(bodyParser.urlencoded({ extended: true }))
 //middleware para recibir ficheros subidos desde un formulario
 //app.use(fileUpload())
 
-app.use(express.static('public'));
+//app.use(express.static('public'));
 
 
-const corsOptions = {
+/*const corsOptions = {
     origin: '',
     optionsSuccessStatus: 200
 }
@@ -55,7 +51,7 @@ app.use(cors(corsOptions))
 app.use((req, res, next) => {
     console.log(`[${new Date()}] ${req.method}  ${req.url}`)
     next()
-})
+})*/
 
 //USUARIO ANONIMO
 // Solicitamos la lista de servicios disponibles
@@ -69,34 +65,24 @@ app.post('/register', register)
 
 // USUARIOS REGISTRADOS
 // Añado servicios a la base de datos, comprobando si el usuario esta autenticado.
-app.post('/service/add', isAuthenticated)
+app.post('/service/add', isAuthenticated, createService)
+
+app.post('/service/newtask', isAuthenticated, newTask)
 
 // Añado comentarios y subo archivo con trabajo requerido.
-app.patch('/service/:id', serviceExists, addComment)
+app.patch('/service/:id', serviceExists, isAuthenticated, addComment)
 
 //app.put('/service/:id/files', isAuthenticated, serviceExists, uploadFile)
 
 // Marcar servicio como resuelto
 app.post('/services/:id', isAuthenticated, serviceExists, markAsComplete)
 
-/*// endpoint de ejemplo para subir ficheros
- const processFileUpload = async (req, res) => {
-
-    console.log(req.files.sampleFile.size)
-
-    await fs.writeFile(`mifichero.png`, req.files.sampleFile.data)
-
-    res.send('Fichero subido!!!!')
- }
-
- app.post('/fileUpload', processFileUpload)
-*/
-
-
- app.get('/', (req, res) => {
-    res.send("<h1>Hola</h1>")
+// Saludo de bienvenida carpeta Raíz
+app.get('/', (req, res) => {
+    res.send("<h1>Hola, Bienvenid@ a nuestro Proyecto, Portal de necesidades.</h1>")
 });
 
+// Servidor localhost:SERVER_PORT
 app.listen(process.env.SERVER_PORT, () => {
     console.log(`Listening on port ${process.env.SERVER_PORT}`)
 });
