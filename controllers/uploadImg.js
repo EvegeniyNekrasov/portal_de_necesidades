@@ -22,7 +22,7 @@ const uploadImg = async (req, res) => {
             // the path where we gona save our picture
 
             res.status(200).send({
-                message: "Image uploaded",
+                message: "Image uploaded successfully",
                 data: {
                     name: img.name,
                     size: img.size
