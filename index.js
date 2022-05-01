@@ -33,6 +33,10 @@ const {
     addComment,
 } = require('./controllers/controladores')
 
+const {
+    uploadImg
+} = require('./controllers/uploadImg')
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
@@ -72,7 +76,7 @@ app.post('/service/newtask', isAuthenticated, newTask)
 // Añado comentarios y subo archivo con trabajo requerido.
 app.patch('/service/:id', serviceExists, isAuthenticated, addComment)
 
-//app.put('/service/:id/files', isAuthenticated, serviceExists, uploadFile)
+app.put('/service/:id/files', isAuthenticated, serviceExists)
 
 // Marcar servicio como resuelto
 app.post('/services/:id', isAuthenticated, serviceExists, markAsComplete)
