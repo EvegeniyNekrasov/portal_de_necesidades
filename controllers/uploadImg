@@ -1,0 +1,40 @@
+const { v4: uuidv4 } = require('uuid')
+const sharp = require('sharp');
+const path = require('path');
+const uploadImg = async (req, res) => {
+
+    try{
+        // If there is no file selected send status false
+        if(!req.files) {
+            res.send({
+                status: false,
+                message: "No image was uploaded"
+            })
+        } else {
+            const sampleFile = req.files.sampleFile;
+            const rutaDirServer = process.env.UPLOADS_IMG
+            const img = await sharp(sampleFile.data)
+                .resize(400, 300)
+                .toFile(path.join(rutaDirServer, `${uuidv4()}.jpg`));
+
+            // the path where we gona save our picture
+
+            img.mv(img);
+
+
+            res.status(200).send({
+                message: "Image uploaded",
+                data: {
+                    name: img.name,
+                    size: img.size
+                }
+            })
+        }
+    } catch (err) {
+        res.status(500).send(err)
+    }
+}
+
+module.exports = {
+    uploadImg
+}

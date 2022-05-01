@@ -65,7 +65,7 @@ app.post('/register', register)
 
 // USUARIOS REGISTRADOS
 // Añado servicios a la base de datos, comprobando si el usuario esta autenticado.
-app.post('/service/add', isAuthenticated, createService)
+app.post('/service/add', isAuthenticated, createService, newTask)
 
 app.post('/service/newtask', isAuthenticated, newTask)
 

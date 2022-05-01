@@ -15,7 +15,7 @@ const getServices = async (req, res) => {
 }
 
 // Creamos el nuevo servicio.
-const createService = async (req, res) => {
+const createService = async (req, res, next) => {
 
         const connection = await db.getConnection()
         const {title, description, file, comments} = req.body
@@ -32,6 +32,7 @@ const createService = async (req, res) => {
         await connection.query(sqlCreateService)
         res.status(200).send("[EXITO] Servicio creado correctamente")
         connection.release()
+        next()
 }
 
 const markAsComplete = async (req, res) => {
@@ -40,35 +41,33 @@ const markAsComplete = async (req, res) => {
     let sql = ``
 
     await connection.query(sql)
+    
 }
 
 const newTask = async (req, res) => {
- //   try{
+   // try{
     const connection = await db.getConnection()
     const userId = req.appInfo.id
     const sqlGetServiceId = `select id from services where userId=${userId}`
-    const idService = await connection.query(sqlGetServiceId)
-    const prueba = await connection.query(`select id_service from completework where id_user=${userId}`)
-    let i = prueba[0].length;
-    for(i ; i < idService[0].length ; i++){
-         //prueba[0])
-        if(idService[0].length !== prueba[0][i].id_service){
-        //const newTaskIn = `insert into completework (id_user, id_service) values (${userId}, ${idService[0][i].id})`
-        //await connection.query(newTaskIn)
+    const serviceId = await connection.query(sqlGetServiceId)
+    
+    for(let i = 0 ; i < serviceId[0].length ; i++){
         
-      
+        if(serviceId[0][i].id === serviceId[0].length ){
+            console.log(serviceId[0].length, serviceId[0][i].id  )
         }
-        console.log("dentro del if", idService[0][i].id)
-        console.log(prueba[0][i])
     }
+    //const newTaskIn = `insert into completework (id_user, id_service) values (${userId}, ${serviceId[0][0].id})`
+    //await connection.query(newTaskIn)
+      
+   
     const username = `select username from users where id=${userId}`
     const username2 = await connection.query(username)
-    //console.log(idService[0][1])
-    //res.status(200).send(`[EXITO] Nueva tarea añadida al usuario: ${username2[0][0].username}`)
+    res.status(200).send(`[EXITO] Nueva tarea añadida al usuario: ${username2[0][0].username}`)
 
-/*} catch (e) {
-   console.log(e)
-}*/
+    //} catch (e) {
+   
+//}
 }
 module.exports = {
     createService,
