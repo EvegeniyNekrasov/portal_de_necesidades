@@ -2,16 +2,13 @@ require("dotenv").config();
 
 const bodyParser = require('body-parser')
 const express = require('express')
+const fileUpload = require('express-fileupload');
 const cors = require('cors')
-
-const fs = require('fs').promises
-
-const db = require('./db')
 const app = express()
 
 const {
-isAuthenticated,
-serviceExists
+    isAuthenticated,
+    serviceExists
 } = require('./middleware/middleware')
 
 const {
@@ -33,28 +30,17 @@ const {
     addComment,
 } = require('./controllers/controladores')
 
+const {
+    uploadImg
+} = require('./controllers/uploadImg')
+
+app.use(express.static('public'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-
-//middleware para recibir ficheros subidos desde un formulario
-//app.use(fileUpload())
-
-//app.use(express.static('public'));
+app.use(fileUpload());
+app.use(cors())
 
 
-/*const corsOptions = {
-    origin: '',
-    optionsSuccessStatus: 200
-}
-app.use(cors(corsOptions))
-
-app.use((req, res, next) => {
-    console.log(`[${new Date()}] ${req.method}  ${req.url}`)
-    next()
-})*/
-
-//USUARIO ANONIMO
-// Solicitamos la lista de servicios disponibles
 app.get('/service/list', getServices)
 
 // Hacemos login
@@ -69,6 +55,8 @@ app.post('/service/add', isAuthenticated, createService)
 
 app.post('/service/newtask', isAuthenticated, newTask)
 
+app.post('/uploadImage', uploadImg)
+
 // Añado comentarios y subo archivo con trabajo requerido.
 app.patch('/service/:id', serviceExists, isAuthenticated, addComment)
 
@@ -76,11 +64,6 @@ app.patch('/service/:id', serviceExists, isAuthenticated, addComment)
 
 // Marcar servicio como resuelto
 app.post('/services/:id', isAuthenticated, serviceExists, markAsComplete)
-
-// Saludo de bienvenida carpeta Raíz
-app.get('/', (req, res) => {
-    res.send("<h1>Hola, Bienvenid@ a nuestro Proyecto, Portal de necesidades.</h1>")
-});
 
 // Servidor localhost:SERVER_PORT
 app.listen(process.env.SERVER_PORT, () => {
