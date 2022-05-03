@@ -54,10 +54,10 @@ app.post('/register', register)
 app.post('/service/add', isAuthenticated, createService)
 
 // Añado comentarios y creo nueva tarea
-app.patch('/service/:id', serviceExists, isAuthenticated, addComment, newTask)
+app.patch('/service/user/task', isAuthenticated, addComment, newTask)
 
 // Marcar servicio como resuelto
-app.post('/services/:id', serviceExists, isAuthenticated, markAsComplete)
+app.patch('/services/:id', serviceExists, isAuthenticated, markAsComplete)
 
 
 //añadir nombre del archivoi.

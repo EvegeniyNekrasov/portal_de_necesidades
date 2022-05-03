@@ -36,11 +36,11 @@ const createService = async (req, res) => {
 }
 
 const markAsComplete = async (req, res) => {
-    const {userId, serviceId} = req.body
     const connection = await db.getConnection()
-    let sql = ``
-
+    const idService = req.params.id
+    let sql = `UPDATE completework set complete=true where id_service=${idService}`
     await connection.query(sql)
+    res.status(200).send("[EXITO] Servicio completado !!")
 }
 
 const newTask = async (req, res) => {
