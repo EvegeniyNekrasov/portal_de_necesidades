@@ -35,3 +35,10 @@ mediante  un fichero  digital.
 
 - Opcional 
     - Gestión del perfil de usuario (Nombre, Email, Biografía, Foto, ...) 
+
+
+### PARA INICAR EL PROYECTOS
+
+- 1º: Haz el git clone https://github.com/EvegeniyNekrasov/portal_de_necesidades.git
+- 2º: En la consola escribe: npm install (para instalar todas las librerias necesarias)
+- Para probar el uploadImg endpoint escribe http://localhost:3000 en tu navegador y sube la imagen
