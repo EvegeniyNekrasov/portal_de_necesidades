@@ -18,7 +18,6 @@ const uploadImg = async (req, res) => {
             const img = await sharp(sampleFile.data)
                 .resize(400, 300)
                 .toFile(path.join(rutaDirServer, `${uuidv4()}.jpg`))
-                console.log("./img/")
               
             // the path where we gona save our picture
 
