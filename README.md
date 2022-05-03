@@ -55,4 +55,5 @@ git clone https://github.com/EvegeniyNekrasov/portal_de_necesidades.git
     - Hacemos uso del endpoint uploadImg, para añadir la imagen al usuario ya creado.
     - Para crear un nuevo servicio, usamos service add, entrar en headers e introducir el token. En el Body, introduciremos los datos que nos solicita.
     - Para añadir un comentario y un archivo, usamos Add Comment, tenemos que introducir en el heathers el token y usamos el enpoint uploadImg para añadir el archivo o imagen.
+    - Para añadir una nueva tarea, usamos New task, introducimos el id del servicio en la url, y el username en el body, tambien el token en header.
     - Para marcar como completado, usamos Mark as Complete. Haciendo Post con el ID de servicio requerido, en el url.

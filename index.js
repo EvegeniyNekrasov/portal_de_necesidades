@@ -41,6 +41,7 @@ app.use(fileUpload());
 app.use(cors())
 
 // USUARIOS ANONIMOS
+//Lista de servicios
 app.get('/service/list', getServices)
 
 // Hacemos login
@@ -53,19 +54,14 @@ app.post('/register', register)
 // Añado servicios a la base de datos, comprobando si el usuario esta autenticado.
 app.post('/service/add', isAuthenticated, createService)
 
-// Añado comentarios y creo nueva tarea
-app.patch('/service/user/task', isAuthenticated, addComment, newTask)
+// Añado comentarios
+app.patch('/service/user/task', isAuthenticated, addComment)
+
+//Añado nueva tarea
+app.post('/service/:id/user', newTask)
 
 // Marcar servicio como resuelto
 app.patch('/services/:id', serviceExists, isAuthenticated, markAsComplete)
-
-
-//añadir nombre del archivoi.
-app.path('/')
-
-
-
-
 
 app.post('/uploadImage', uploadImg)
 

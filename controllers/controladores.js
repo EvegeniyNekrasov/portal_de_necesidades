@@ -1,9 +1,5 @@
 require("dotenv").config();
 
-const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken");
-const fs = require('fs').promises
-
 const db = require('../db')
 
 let updateComment;
@@ -33,11 +29,6 @@ const addComment = async (req, res) => {
     
 }
 
-const uploadFile = async (id, connection) =>{
-
-}
-
 module.exports = {
-    addComment,
-    uploadFile
+    addComment
 };
