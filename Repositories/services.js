@@ -18,8 +18,9 @@ const getServices = async (req, res) => {
 const createService = async (req, res) => {
 
         const connection = await db.getConnection()
-        const {title, description, file, comments} = req.body
-        if(!title || !description || !file || !comments){
+        const {title, description} = req.body
+        
+        if(!title || !description){
             res.status(403).send("[ERROR] el servicio no esta creado, rellene los campos necesarios e intentelo de nuevo")
             return
         }
@@ -27,8 +28,8 @@ const createService = async (req, res) => {
         const userId = req.appInfo.id
     
     // Insertamos en DB los servicios creados por el usuario.
-        const sqlCreateService = `insert into services (title, description, file, comments, userId) 
-        values ("${title}","${description}", "${file}", "${comments}", ${userId})`
+        const sqlCreateService = `insert into services (title, description, userId) 
+        values ("${title}","${description}", ${userId})`
         await connection.query(sqlCreateService)
         res.status(200).send("[EXITO] Servicio creado correctamente")
         connection.release()

@@ -36,8 +36,8 @@ async function main() {
         id INTEGER PRIMARY KEY AUTO_INCREMENT,
         title VARCHAR (100) NOT NULL,
         description VARCHAR(300) NOT NULL,
-        file VARCHAR(50) NOT NULL,
-        comments VARCHAR(300) NOT NULL,
+        file VARCHAR(1000),
+        comments VARCHAR(300),
         userId INTEGER NOT NULL,
         foreign key (userId) references users(id)
       );

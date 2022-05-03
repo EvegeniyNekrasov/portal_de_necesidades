@@ -11,7 +11,7 @@ const register = async (req, res) => {
 // Comprobamos que nos pasan usuario y contraseña.
     const { username, password, mail, biography } = req.body
 
-    if (!username || !password) {
+    if (!username || !password || !mail){
         res.sendStatus(400)
         return
     }
