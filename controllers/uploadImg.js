@@ -17,8 +17,8 @@ const uploadImg = async (req, res) => {
             const rutaDirServer = process.env.UPLOADS_IMG
             const img = await sharp(sampleFile.data)
                 .resize(400, 300)
-                .toFile(path.join(rutaDirServer, `${uuidv4()}.jpg`));
-
+                .toFile(path.join(rutaDirServer, `${uuidv4()}.jpg`))
+              
             // the path where we gona save our picture
 
             res.status(200).send({
@@ -30,7 +30,7 @@ const uploadImg = async (req, res) => {
             })
         }
     } catch (err) {
-        res.status(500).send("PRIMOOOOO, NO FUNCIONA, MIRATE EL CÓDIGO QUE LO TINES ECHO COMO EL CULO")
+        res.status(500).send("[ERROR] No se ha podido cargar el archivo")
     }
 }
 

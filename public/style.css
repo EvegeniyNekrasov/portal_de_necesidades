@@ -6,4 +6,38 @@
 
 body {
     font-family: open sans;
+
+}
+
+.container {
+    position: fixed;
+    top: 50%;
+    left:40%;
+}
+
+ul {
+    list-style: none;
+}
+
+
+form input[type="file"] {
+    width: 100%;
+    padding: 8px 16px;
+    margin-top: 32px;
+    border-radius: 5px;
+    font-size: 1rem;
+    display: block;
+    color: rgb(255, 255, 255);
+    background-color: rgb(66, 57, 57);
+}
+
+form input[type="submit"] {
+    width: 100%;
+    padding: 8px 16px;
+    margin-top: 32px;
+    border-radius: 5px;
+    font-size: 1rem;
+    display: block;
+    color: rgb(255, 255, 255);
+    background-color: rgb(27, 100, 17);
 }

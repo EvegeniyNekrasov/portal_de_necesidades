@@ -40,7 +40,8 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(fileUpload());
 app.use(cors())
 
-
+// USUARIOS ANONIMOS
+//Lista de servicios
 app.get('/service/list', getServices)
 
 // Hacemos login
@@ -53,17 +54,16 @@ app.post('/register', register)
 // Añado servicios a la base de datos, comprobando si el usuario esta autenticado.
 app.post('/service/add', isAuthenticated, createService)
 
-app.post('/service/newtask', isAuthenticated, newTask)
+// Añado comentarios
+app.patch('/service/user/task', isAuthenticated, addComment)
 
-app.post('/uploadImage', uploadImg)
-
-// Añado comentarios y subo archivo con trabajo requerido.
-app.patch('/service/:id', serviceExists, isAuthenticated, addComment)
-
-//app.put('/service/:id/files', isAuthenticated, serviceExists, uploadFile)
+//Añado nueva tarea
+app.post('/service/:id/user', newTask)
 
 // Marcar servicio como resuelto
-app.post('/services/:id', isAuthenticated, serviceExists, markAsComplete)
+app.patch('/services/:id', serviceExists, isAuthenticated, markAsComplete)
+
+app.post('/uploadImage', uploadImg)
 
 // Servidor localhost:SERVER_PORT
 app.listen(process.env.SERVER_PORT, () => {

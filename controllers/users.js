@@ -1,9 +1,7 @@
 require("dotenv").config();
 
 const bcrypt = require('bcrypt');
-const jwt = require("jsonwebtoken");
-const fs = require('fs').promises
-
+const jwt = require('jsonwebtoken');
 const db = require('../db')
 
 const login = async (req, res) => {
